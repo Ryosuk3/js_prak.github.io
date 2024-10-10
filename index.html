@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calc Function</title>
+    <link href="style.css" rel="stylesheet">
+    <style>
+        #canvasContainer {
+            display: flex;
+            justify-content: space-around;
+        }
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+  </head>
+
+  <body>
+    <h1>Решение уравнения вида kx + b = c и построение графика</h1>
+
+    <label for="kInput">Введите коэффициент k:</label>
+    <input type="number" id="kInput" placeholder="k">
+    <br><br>
+
+    <label for="bInput">Введите коэффициент b:</label>
+    <input type="number" id="bInput" placeholder="b">
+    <br><br>
+
+    <label for="cInput">Введите значение c:</label>
+    <input type="number" id="cInput" placeholder="c">
+    <br><br>
+
+    <button onclick="solve()">Решить</button>
+
+    <p id="result"></p>
+
+    <!-- Контейнер для графиков -->
+    <div id="canvasContainer">
+        <canvas id="graph1" width="800" height="800"></canvas>
+    </div>
+
+    
+
+    <script>
+
+    function solveEquation(k, b, c) {
+        return (c - b) / k;
+    }
+
+
+    function solve() {
+
+        let k = parseFloat(document.getElementById("kInput").value);
+        let b = parseFloat(document.getElementById("bInput").value);
+        let c = parseFloat(document.getElementById("cInput").value);
+    
+
+        if (k === 0) {
+            document.getElementById("result").innerText = "Ошибка: k не может быть равно 0.";
+            return;
+        }
+
+
+        let result = solveEquation(k, b, c);
+
+
+        document.getElementById("result").innerText = result;
+
+
+    }
+    </script>
+  </body>
+</html>
