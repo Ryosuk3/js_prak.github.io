@@ -11,33 +11,92 @@
             justify-content: space-around;
         }
         canvas {
-            border: 1px solid black;
+            border: 3px solid black;
         }
+        h1{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        #container {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #000;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            
+            
+        }
+        label, input, button {
+            display: block;
+            
+        }
+        label{
+            margin-left: 40%;
+            font-size: 18px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        input {
+            margin-left: 40%;
+            margin-right: 40%;
+            padding: 8px;
+            width: 20%;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        button {
+            margin-left: 45%;
+            margin-right: 45%;
+            width: 10%;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            
+        }
+
+        button:hover {
+            background-color: #45a030;
+        }
+
+        p{
+            margin-top: 20px;
+            font-size: 16px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin-left: 50%;
+        }
+        
     </style>
   </head>
 
   <body>
-    <h1>Решение уравнения типа kx + b = c и построение графика</h1>
+    <div id="main">
+        <h1>Калькулятор уравнений типа kx+b=с, с построением графика</h1>
 
-    <label for="kInput">Введите коэффициент k:</label>
-    <input type="number" id="kInput" placeholder="k">
-    <br><br>
+        <label for="kInput">Введите коэффициент k:</label>
+        <input type="number" id="kInput" placeholder="k">
+        <br><br>
 
-    <label for="bInput">Введите коэффициент b:</label>
-    <input type="number" id="bInput" placeholder="b">
-    <br><br>
+        <label for="bInput">Введите коэффициент b:</label>
+        <input type="number" id="bInput" placeholder="b">
+        <br><br>
 
-    <label for="cInput">Введите значение c:</label>
-    <input type="number" id="cInput" placeholder="c">
-    <br><br>
+        <label for="cInput">Введите значение c:</label>
+        <input type="number" id="cInput" placeholder="c">
+        <br><br>
 
-    <button onclick="solve()">Решить</button>
+        <button onclick="solve()">Решить</button>
 
-    <p id="result"></p>
-
-    <!-- Контейнер для графиков -->
+        <p id="result"></p>
+    </div>
+    
     <div id="canvasContainer" >
-        <canvas id="graph1" width="1800" height="1200"></canvas>
+        <canvas id="graph1" width="1200" height="800"></canvas>
     </div>
   </body>
   <script>
@@ -52,13 +111,17 @@
         let k = parseFloat(document.getElementById("kInput").value);
         let b = parseFloat(document.getElementById("bInput").value);
         let c = parseFloat(document.getElementById("cInput").value);
-    
+        
+        if (isNaN(k) || isNaN(b) || isNaN(c)){
+            document.getElementById("result").innerText = "Ошибка: не введены значения коеффициентов.";
+            return;
+        }
 
         if (k === 0) {
             document.getElementById("result").innerText = "Ошибка: k не может быть равно 0.";
             return;
         }
-
+        
 
         let result = solveEquation(k, b, c);
 
@@ -75,7 +138,7 @@
 
         ctx.clearRect(0,0,canvas.width, canvas.height);
         
-        сtx.beginPath();
+        ctx.beginPath();
         ctx.moveTo(0,canvas.height/2);
         ctx.lineTo(canvas.width,canvas.height/2);
         ctx.moveTo(canvas.width/2,0);
@@ -83,6 +146,26 @@
         ctx.strokeStyle='blue';
         ctx.lineWidth=2;
         ctx.stroke();
+
+        ctx.beginPath();
+        ctx.strokeStyle = 'blue';
+
+    
+        ctx.moveTo(canvas.width - 10, canvas.height / 2 - 5); // левая часть стрелки
+        ctx.lineTo(canvas.width, canvas.height / 2);          // центральная линия
+        ctx.lineTo(canvas.width - 10, canvas.height / 2 + 5); // правая часть стрелки
+
+    // Стрелка для оси Y
+        ctx.moveTo(canvas.width / 2 - 5, 10); // нижняя часть стрелки
+        ctx.lineTo(canvas.width / 2, 0);      // центральная линия
+        ctx.lineTo(canvas.width / 2 + 5, 10); // верхняя часть стрелки
+
+        ctx.stroke();
+
+        ctx.font = "20px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("X", canvas.width - 20, canvas.height / 2 - 10); 
+        ctx.fillText("Y", canvas.width / 2 + 10, 20);
 
         const xPos = canvas.width / 2 + x * 20;
         
